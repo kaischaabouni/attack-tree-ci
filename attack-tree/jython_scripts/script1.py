@@ -11,9 +11,10 @@ def main():
 	gproject =  GProject.getProject(root)
 
 	# Deploy Module (JMDAC File)
-	module_jmdac_path = "./module_jmdac_archives"
+	module_jmdac_path = "/module_jmdac_archives"
 	moduleArchivePattern = os.path.join(module_jmdac_path, "AttackTreeDesigner_*.jmdac")
 	moduleArchives = glob.glob(moduleArchivePattern)
+	moduleArchives.sort(reverse=True)
 	Modelio.getInstance().getModuleService().installModule(gproject, Paths.get(moduleArchives[0]))
 	
 	# test if module deployed correctly
@@ -34,16 +35,16 @@ def main():
 	attackTreePeerModule = Modelio.getInstance().getModuleService().getPeerModule("AttackTreeDesigner")
 
 
-	attackTreePeerModule.importModel(modelPackage, "./testsuite_XML_trees/test_attacktrees4")
+	attackTreePeerModule.importModel(modelPackage, "/attack-tree/testsuite_XML_trees/test_attacktrees4")
 
 	t = session.createTransaction("transaction 1")
-	modelPackage.getOwnedElement().get(0).setName("hihi3")
+	#modelPackage.getOwnedElement().get(0).setName("hihi3")
 
 	t.commit()
 
-	assert modelPackage.getOwnedElement().get(0).getName() == "hihi3", "Error"
+	#assert modelPackage.getOwnedElement().get(0).getName() == "hihi3", "Error"
 
-	attackTreePeerModule.exportModel(modelPackage, "./generated_trees")
+	attackTreePeerModule.exportModel(modelPackage, "/attack-tree/generated_trees/test_0_04")
 
 
 
